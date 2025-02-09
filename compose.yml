@@ -1,0 +1,53 @@
+services:
+  mysql:
+    image: "mysql:latest"
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: ensahTerrain
+      MYSQL_USER: abdelilah
+      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: admin
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - spring-ng-networks
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  spring:
+    build: ./terrain-ensah-backend
+    container_name: spring-graal
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/ensahTerrain
+      - SPRING_DATASOURCE_USERNAME=abdelilah
+      - SPRING_DATASOURCE_PASSWORD=admin
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - spring-ng-networks
+
+  angular:
+    build: ./front-end-ui
+    container_name: front-ng
+    ports:
+      - '8081:80'
+    networks:
+      - spring-ng-networks
+    depends_on:
+      - spring
+
+
+volumes:
+  mysql-data:
+
+networks:
+  spring-ng-networks:
+    driver: bridge
