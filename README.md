@@ -67,7 +67,7 @@ To set up the project locally, ensure you have the following installed:
 
 - Java 21
 - Maven 3.x.x
-- MySQL 8.0
+- MySQL 
 
 ### Installation
 
