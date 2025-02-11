@@ -57,7 +57,7 @@ The match management component is centered around a single, comprehensive table 
 
 ## Getting Started
 
-##  Documentation Swagger
+#  API documentation using Swagger
 
 ![documentation](./images/swagger.png)
 
